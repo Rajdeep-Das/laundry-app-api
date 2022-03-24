@@ -34,17 +34,12 @@ public class User {
 	@Column(name = "phone", nullable = true)
 	private String phone;
 
-	public String getPhone() {
-		return phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-
 	@NotBlank
 	@Size(max = 120)
 	private String password;
+
+	@Column(name = "verification_code", length = 64)
+    private String verificationCode;
 
 	@Column(name = "is_enabled", nullable = true)
 	private boolean isEnabled;
@@ -153,4 +148,21 @@ public class User {
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public String getVerificationCode() {
+		return verificationCode;
+	}
+
+	public void setVerificationCode(String verificationCode) {
+		this.verificationCode = verificationCode;
+	}
+	
 }
