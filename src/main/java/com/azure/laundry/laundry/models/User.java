@@ -47,6 +47,20 @@ public class User {
 	private boolean isEmailVerified;
 	@Column(name = "is_phone_verified", nullable = true)
 	private boolean isPhoneVerified;
+
+	@Column(name = "first_name", nullable = true)
+	private String firstName;
+	@Column(name = "last_name", nullable = true)
+    private String lastName;
+	@Column(name = "nick_name", nullable = true)
+    private String nickName;
+	// For Demo Purpose setting as string,may need to chnage in real application
+	@Column(name = "dob", nullable = true)
+    private String dob;
+	@Column(name = "gender", nullable = true)
+    private String gender;
+
+
 	
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(	name = "user_roles", 
@@ -163,6 +177,46 @@ public class User {
 
 	public void setVerificationCode(String verificationCode) {
 		this.verificationCode = verificationCode;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public String getNickName() {
+		return nickName;
+	}
+
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
+	}
+
+	public String getDob() {
+		return dob;
+	}
+
+	public void setDob(String dob) {
+		this.dob = dob;
+	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
 	}
 	
 }

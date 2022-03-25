@@ -1,6 +1,7 @@
 package com.azure.laundry.laundry.controllers;
 
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -103,27 +104,33 @@ public class AuthController {
     // userDetails.getId(),
     // userDetails.getUsername(), userDetails.getEmail(), roles));
 
-    return ResponseEntity.ok(new JwtResponse(jwt, refreshToken.getToken(), userDetails.getId(),
-        userDetails.getUsername(), userDetails.getEmail(), userDetails.getPhone(), userDetails.isEmailVerified(),
-        userDetails.isPhoneVerified(), roles));
+    JwtResponse jwtresponse = new JwtResponse(jwt, refreshToken.getToken(), userDetails.getId(),
+    userDetails.getUsername(), userDetails.getEmail(), userDetails.getPhone(), userDetails.isEmailVerified(),
+    userDetails.isPhoneVerified(), roles);
+
+    // Get Extra UserData
+    User user = userRepository.getById(userDetails.getId());
+
+    HashMap<String, Object> responseData = new HashMap<String, Object>();
+    responseData.put("auth", jwtresponse);
+    responseData.put("firstName", user.getFirstName());
+    responseData.put("lastName", user.getLastName());
+    responseData.put("nickName", user.getNickName());
+    responseData.put("dob", user.getDob());
+    return ResponseEntity.ok(responseData);
   }
 
   @PostMapping("/signup")
   public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest, HttpServletRequest request) {
-    // if (userRepository.existsByUsername(signUpRequest.getUsername())) {
-    // return ResponseEntity.badRequest().body(new MessageResponse("Error: Username
-    // is already taken!"));
-    // }
+   
 
     if (userRepository.existsByEmail(signUpRequest.getEmail())) {
       return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
     }
 
-    // Create new user's account
-    // User user = new User(signUpRequest.getUsername(),
-    // signUpRequest.getEmail(),signUpRequest.getPhone(),
-    // encoder.encode(signUpRequest.getPassword()));
+   
 
+    // Setting email as username
     User user = new User(signUpRequest.getEmail(), signUpRequest.getEmail(),
         encoder.encode(signUpRequest.getPassword()));
 
@@ -131,6 +138,9 @@ public class AuthController {
     Set<Role> roles = new HashSet<>();
 
     /*
+     User user = new User(signUpRequest.getUsername(),
+     signUpRequest.getEmail(),signUpRequest.getPhone(),
+     encoder.encode(signUpRequest.getPassword()));
      * if (strRoles == null) {
      * Role userRole = roleRepository.findByName(ERole.ROLE_USER)
      * .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
@@ -163,8 +173,15 @@ public class AuthController {
         .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
     roles.add(userRole);
     user.setRoles(roles);
-    // Add Phone
+    // Add User Extra Information
     user.setPhone(signUpRequest.getPhone());
+    user.setFirstName(signUpRequest.getFirstName());
+    user.setLastName(signUpRequest.getLastName());
+    user.setNickName(signUpRequest.getNickName());
+    user.setDob(signUpRequest.getDob());
+    user.setGender(signUpRequest.getGender());
+
+    
     // Email Verification Setps
     String randomCode = RandomString.make(64);
     user.setVerificationCode(randomCode);
