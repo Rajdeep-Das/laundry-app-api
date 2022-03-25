@@ -3,6 +3,7 @@ package com.azure.laundry.laundry.controllers;
 import java.io.UnsupportedEncodingException;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -221,6 +222,38 @@ public class AuthController {
 
   }
 
+  @GetMapping("/resendEmail")
+  public ResponseEntity<?> resendEmailConfirmation(@Param("email") String email, HttpServletRequest request) {
+    Optional<User> user = userRepository.findByEmail(email);
+    // User userFinal = user.get();
+    if (user.isPresent() && !(user.get().isEmailVerified())) {
+      User userFinal = user.get();
+      userFinal.setVerificationCode(null);
+      // Email Verification Setps
+      String randomCode = RandomString.make(64);
+      userFinal.setVerificationCode(randomCode);
+      userFinal.setEmailVerified(false);
+      // Save
+      userRepository.save(userFinal);
+      try {
+        sendVerificationEmail(userFinal, getSiteURL(request));
+        logger.error("Email Send To {email}", userFinal.getEmail());
+      } catch (UnsupportedEncodingException e) {
+        logger.error("Email Sendin Failed ...{msg}", e.getMessage());
+        e.printStackTrace();
+      } catch (MessagingException e) {
+        logger.error("Email Sendin Failed ...{msg}", e.getMessage());
+        e.printStackTrace();
+      }
+      return ResponseEntity.ok(new MessageResponse("Email confirmation resend successful!"));
+    } else {
+      if (user.isPresent() && user.get().isEmailVerified())
+        return ResponseEntity.ok(new MessageResponse("Email Alredy Verified!"));
+      else
+        return ResponseEntity.ok(new MessageResponse("You don't have any account!"));
+    }
+  }
+
   /*
    * ------------- Helper Methods Later Refactor To Proper Service --------
    * 
@@ -235,14 +268,13 @@ public class AuthController {
       throws MessagingException, UnsupportedEncodingException {
     String toAddress = user.getEmail();
     String fromAddress = "azure.digitalbank@gmail.com";
-    // String fromAddress = "support@atomslearning.com";
-    String senderName = "Azure Digital Bank";
+    String senderName = "Azure Laundry Service";
     String subject = "Please verify your registration";
     String content = "Dear [[name]],<br>"
         + "Please click the link below to verify your registration:<br>"
         + "<h3><a href=\"[[URL]]\" target=\"_self\">VERIFY</a></h3>"
         + "Thank you,<br>"
-        + "Azure India Laundry.";
+        + "Azure India Laundry";
 
     MimeMessage message = mailSender.createMimeMessage();
     MimeMessageHelper helper = new MimeMessageHelper(message);
