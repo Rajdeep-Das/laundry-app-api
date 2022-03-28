@@ -43,11 +43,14 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
 import org.springframework.web.bind.annotation.CrossOrigin;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+
 import org.springframework.web.bind.annotation.RestController;
 
 import net.bytebuddy.utility.RandomString;
@@ -105,8 +108,8 @@ public class AuthController {
     // userDetails.getUsername(), userDetails.getEmail(), roles));
 
     JwtResponse jwtresponse = new JwtResponse(jwt, refreshToken.getToken(), userDetails.getId(),
-    userDetails.getUsername(), userDetails.getEmail(), userDetails.getPhone(), userDetails.isEmailVerified(),
-    userDetails.isPhoneVerified(), roles);
+        userDetails.getUsername(), userDetails.getEmail(), userDetails.getPhone(), userDetails.isEmailVerified(),
+        userDetails.isPhoneVerified(), roles);
 
     // Get Extra UserData
     User user = userRepository.getById(userDetails.getId());
@@ -122,13 +125,10 @@ public class AuthController {
 
   @PostMapping("/signup")
   public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest, HttpServletRequest request) {
-   
 
     if (userRepository.existsByEmail(signUpRequest.getEmail())) {
       return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
     }
-
-   
 
     // Setting email as username
     User user = new User(signUpRequest.getEmail(), signUpRequest.getEmail(),
@@ -138,9 +138,9 @@ public class AuthController {
     Set<Role> roles = new HashSet<>();
 
     /*
-     User user = new User(signUpRequest.getUsername(),
-     signUpRequest.getEmail(),signUpRequest.getPhone(),
-     encoder.encode(signUpRequest.getPassword()));
+     * User user = new User(signUpRequest.getUsername(),
+     * signUpRequest.getEmail(),signUpRequest.getPhone(),
+     * encoder.encode(signUpRequest.getPassword()));
      * if (strRoles == null) {
      * Role userRole = roleRepository.findByName(ERole.ROLE_USER)
      * .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
@@ -181,7 +181,6 @@ public class AuthController {
     user.setDob(signUpRequest.getDob());
     user.setGender(signUpRequest.getGender());
 
-    
     // Email Verification Setps
     String randomCode = RandomString.make(64);
     user.setVerificationCode(randomCode);

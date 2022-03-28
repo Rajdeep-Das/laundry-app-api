@@ -50,9 +50,13 @@ public class User {
 	private boolean isPhoneVerified;
 
 	@Column(name = "first_name", nullable = true)
+	@NotBlank
 	private String firstName;
+
 	@Column(name = "last_name", nullable = true)
+	@NotBlank
     private String lastName;
+	
 	@Column(name = "nick_name", nullable = true)
     private String nickName;
 	// For Demo Purpose setting as string,may need to chnage in real application

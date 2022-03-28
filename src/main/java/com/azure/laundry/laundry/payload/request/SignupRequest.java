@@ -20,12 +20,14 @@ public class SignupRequest {
     @Size(min = 6, max = 40)
     private String password;
 
-    @NotBlank
-    @Size(max = 50)
+    @NotBlank(message = "FirstName is mandatory")
+    @Size(min=1 ,max = 50)
 	private String firstName;
-    @NotBlank
-    @Size(max = 50)
+
+    @NotBlank(message = "LastName is mandatory")
+    @Size(min=1,max = 50)
     private String lastName;
+
     private String nickName;
 	// For Demo Purpose setting as string,may need to chnage in real application
     private String dob;
