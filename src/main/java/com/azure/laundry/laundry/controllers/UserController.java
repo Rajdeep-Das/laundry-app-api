@@ -5,6 +5,7 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
+import com.azure.laundry.laundry.CommonResponse;
 import com.azure.laundry.laundry.models.Address;
 import com.azure.laundry.laundry.models.User;
 import com.azure.laundry.laundry.payload.request.AddressRequest;
@@ -25,7 +26,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j  // Lombok
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/user")
@@ -49,9 +52,22 @@ public class UserController {
         Optional<User> userQueryData = userRepository.findById(userDetails.getId());
         
         if(userQueryData.isPresent() &&  (userQueryData.get().getAddress()!= null)){
-            return ResponseEntity.ok(userQueryData.get().getAddress());
+            
+            CommonResponse commonResponse = new CommonResponse();
+            commonResponse.setData(userQueryData.get().getAddress());
+            commonResponse.setStatusCode(200);
+            commonResponse.setMessage("success");
+            commonResponse.setDescription("");
+            log.info("Adress Found");
+            return ResponseEntity.ok(commonResponse);
         }else{
-            return ResponseEntity.ok("No Address Set");
+            log.info("No Adress Found");
+            CommonResponse commonResponse = new CommonResponse();
+            commonResponse.setData(null);
+            commonResponse.setStatusCode(200);
+            commonResponse.setMessage("success");
+            commonResponse.setDescription("No Address Set");
+            return ResponseEntity.ok(commonResponse);
         }
     
         
@@ -84,9 +100,20 @@ public class UserController {
             //modelMapper.createTypeMap(AddressRequest.class,Address.class);
             // modelMapper.validate();
 
-            return ResponseEntity.ok(user);
+            CommonResponse commonResponse = new CommonResponse();
+            commonResponse.setData(user);
+            commonResponse.setStatusCode(200);
+            commonResponse.setMessage("success");
+            commonResponse.setDescription("");
+
+            return ResponseEntity.ok(commonResponse);
         }
 
-        return ResponseEntity.ok("Invalid Request");
+        CommonResponse commonResponse = new CommonResponse();
+        commonResponse.setData(null);
+        commonResponse.setStatusCode(200);
+        commonResponse.setMessage("faield");
+        commonResponse.setDescription("Invalid Request");
+        return ResponseEntity.ok(commonResponse);
     }
 }
