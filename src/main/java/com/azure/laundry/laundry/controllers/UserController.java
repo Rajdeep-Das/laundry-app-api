@@ -15,6 +15,7 @@ import com.azure.laundry.laundry.security.services.UserDetailsImpl;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -59,15 +60,15 @@ public class UserController {
             commonResponse.setMessage("success");
             commonResponse.setDescription("");
             log.info("Adress Found");
-            return ResponseEntity.ok(commonResponse);
+            return new ResponseEntity<>(commonResponse,HttpStatus.OK);
         }else{
             log.info("No Adress Found");
             CommonResponse commonResponse = new CommonResponse();
             commonResponse.setData(null);
-            commonResponse.setStatusCode(200);
-            commonResponse.setMessage("success");
+            commonResponse.setStatusCode(404);
+            commonResponse.setMessage("failed");
             commonResponse.setDescription("No Address Set");
-            return ResponseEntity.ok(commonResponse);
+            return new ResponseEntity<>(commonResponse,HttpStatus.NOT_FOUND);
         }
     
         
@@ -101,19 +102,19 @@ public class UserController {
             // modelMapper.validate();
 
             CommonResponse commonResponse = new CommonResponse();
-            commonResponse.setData(user);
-            commonResponse.setStatusCode(200);
+            commonResponse.setData(address);
+            commonResponse.setStatusCode(HttpStatus.CREATED.value());
             commonResponse.setMessage("success");
             commonResponse.setDescription("");
 
-            return ResponseEntity.ok(commonResponse);
+            return new ResponseEntity<>(commonResponse,HttpStatus.CREATED);
         }
 
         CommonResponse commonResponse = new CommonResponse();
         commonResponse.setData(null);
-        commonResponse.setStatusCode(200);
-        commonResponse.setMessage("faield");
+        commonResponse.setStatusCode(400);
+        commonResponse.setMessage("failed");
         commonResponse.setDescription("Invalid Request");
-        return ResponseEntity.ok(commonResponse);
+        return new ResponseEntity<>(commonResponse,HttpStatus.BAD_REQUEST);
     }
 }
