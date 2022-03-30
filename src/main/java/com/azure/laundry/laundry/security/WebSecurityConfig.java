@@ -56,11 +56,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
+		// For H2 Console In Dev -- Disabled In Prod
+		http.headers().frameOptions().disable();
+		// Sequrity Config
 		http.cors().and().csrf().disable()
 			.exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 			//.authorizeRequests().antMatchers("/swagger-ui.html").permitAll()
-			.authorizeRequests().antMatchers("/api/auth/**","/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll()
+			.authorizeRequests().antMatchers("/h2-console/**","/api/auth/**","/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll()
 			.antMatchers("/api/test/**","api/user/**").permitAll()
 			.anyRequest().authenticated();
 
