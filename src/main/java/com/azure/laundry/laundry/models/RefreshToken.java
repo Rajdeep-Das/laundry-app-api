@@ -1,8 +1,7 @@
 package com.azure.laundry.laundry.models;
 
-import java.time.Instant;
-
 import javax.persistence.*;
+import java.time.Instant;
 
 @Entity(name = "refreshtoken")
 public class RefreshToken {

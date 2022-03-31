@@ -1,10 +1,7 @@
 package com.azure.laundry.laundry.repository;
 
 
-
-
 import com.azure.laundry.laundry.models.Address;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

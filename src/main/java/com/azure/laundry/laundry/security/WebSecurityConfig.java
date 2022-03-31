@@ -3,7 +3,6 @@ package com.azure.laundry.laundry.security;
 import com.azure.laundry.laundry.security.jwt.AuthEntryPointJwt;
 import com.azure.laundry.laundry.security.jwt.AuthTokenFilter;
 import com.azure.laundry.laundry.security.services.UserDetailsServiceImpl;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

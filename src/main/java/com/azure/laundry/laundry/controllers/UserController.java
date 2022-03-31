@@ -1,10 +1,5 @@
 package com.azure.laundry.laundry.controllers;
 
-import java.util.Optional;
-
-import javax.transaction.Transactional;
-import javax.validation.Valid;
-
 import com.azure.laundry.laundry.CommonResponse;
 import com.azure.laundry.laundry.models.Address;
 import com.azure.laundry.laundry.models.User;
@@ -12,24 +7,21 @@ import com.azure.laundry.laundry.payload.request.AddressRequest;
 import com.azure.laundry.laundry.repository.AddressRepository;
 import com.azure.laundry.laundry.repository.UserRepository;
 import com.azure.laundry.laundry.security.services.UserDetailsImpl;
-
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import lombok.extern.slf4j.Slf4j;
+import javax.transaction.Transactional;
+import javax.validation.Valid;
+import java.util.Optional;
 
-@Slf4j  // Lombok
+@Slf4j
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/user")
