@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,7 +25,7 @@ import java.util.Optional;
 @Slf4j
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping(value="/api/user",produces = MediaType.APPLICATION_JSON_VALUE)
 @SecurityRequirement(name = "jwtAuth")
 public class UserController {
 
@@ -51,10 +52,10 @@ public class UserController {
             commonResponse.setStatusCode(200);
             commonResponse.setMessage("success");
             commonResponse.setDescription("");
-            log.info("Adress Found");
+            log.info("Address Found");
             return new ResponseEntity<>(commonResponse,HttpStatus.OK);
         }else{
-            log.info("No Adress Found");
+            log.info("No Address Found");
             CommonResponse commonResponse = new CommonResponse();
             commonResponse.setData(null);
             commonResponse.setStatusCode(404);
@@ -90,7 +91,7 @@ public class UserController {
             Address address = modelMapper.map(addressRequest, Address.class);
             user.setAddress(address);
             userRepository.save(user);
-            //modelMapper.createTypeMap(AddressRequest.class,Address.class);
+            // modelMapper.createTypeMap(AddressRequest.class,Address.class);
             // modelMapper.validate();
 
             CommonResponse commonResponse = new CommonResponse();
@@ -108,5 +109,42 @@ public class UserController {
         commonResponse.setMessage("failed");
         commonResponse.setDescription("Invalid Request");
         return new ResponseEntity<>(commonResponse,HttpStatus.BAD_REQUEST);
+    }
+
+    @PutMapping("/address")
+    public ResponseEntity<?> updateAddress(@Valid @RequestBody AddressRequest addressRequest){
+        UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+
+        Optional<User> userQueryData = userRepository.findById(userDetails.getId());
+        if(userQueryData.isPresent() &&  (userQueryData.get().getAddress()!= null)){
+
+            Address uAddress = userQueryData.get().getAddress();
+
+            ModelMapper modelMapper = new ModelMapper();
+            Address address = modelMapper.map(addressRequest, Address.class);
+
+            address.setId(uAddress.getId());
+            addressRepository.save(address);
+
+            CommonResponse commonResponse = new CommonResponse();
+            commonResponse.setData(address);
+            commonResponse.setStatusCode(200);
+            commonResponse.setMessage("success");
+            commonResponse.setDescription("Address Updated");
+            log.info("Address Updated");
+            return new ResponseEntity<>(commonResponse,HttpStatus.OK);
+        }else{
+            log.info("No Address Found");
+            CommonResponse commonResponse = new CommonResponse();
+            commonResponse.setData(null);
+            commonResponse.setStatusCode(404);
+            commonResponse.setMessage("failed");
+            commonResponse.setDescription("No Address Set");
+            return new ResponseEntity<>(commonResponse,HttpStatus.NOT_FOUND);
+        }
+
     }
 }

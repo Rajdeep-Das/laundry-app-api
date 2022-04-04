@@ -209,7 +209,7 @@ public class AuthController {
     return ResponseEntity.ok(new MessageResponse("Log out successful!"));
   }
 
-  @GetMapping("/verify")
+  @GetMapping("/verifyEmail")
   public String verifyUser(@Param("code") String code) {
     User user = userRepository.findByVerificationCode(code);
     if (user == null || user.isEmailVerified()) {
@@ -287,7 +287,7 @@ public class AuthController {
     // Replace With Name Later
     content = content.replace("[[name]]", user.getEmail());
     // Path
-    String verifyURL = siteURL + "/api/auth/verify?code=" + user.getVerificationCode();
+    String verifyURL = siteURL + "/api/auth/verifyEmail?code=" + user.getVerificationCode();
 
     content = content.replace("[[URL]]", verifyURL);
 
