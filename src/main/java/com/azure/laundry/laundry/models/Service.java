@@ -1,7 +1,11 @@
 package com.azure.laundry.laundry.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "service")
@@ -16,8 +20,21 @@ public class Service {
     private Date CreatedOn;
     private Date UpdatedOn;
 
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "service", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("service")
+    private List<Product> productList = new ArrayList<>();
+
+
     public Service(){}
 
+
+    public List<Product> getProductList() {
+        return productList;
+    }
+
+    public void setProductList(List<Product> productList) {
+        this.productList = productList;
+    }
 
     public String getName() {
         return Name;
