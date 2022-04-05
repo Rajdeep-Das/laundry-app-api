@@ -1,7 +1,16 @@
 package com.azure.laundry.laundry.models;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
 
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "cart_item")
 public class CartItem {
@@ -16,60 +25,4 @@ public class CartItem {
     private double Price;
     private double TotalPrice;
     private Long ServiceId;
-
-    public Long getCartId() {
-        return CartId;
-    }
-
-    public void setCartId(Long cartId) {
-        CartId = cartId;
-    }
-
-    public Long getProductId() {
-        return ProductId;
-    }
-
-    public void setProductId(Long productId) {
-        ProductId = productId;
-    }
-
-    public int getQuantity() {
-        return Quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        Quantity = quantity;
-    }
-
-    public double getPrice() {
-        return Price;
-    }
-
-    public void setPrice(double price) {
-        Price = price;
-    }
-
-    public double getTotalPrice() {
-        return TotalPrice;
-    }
-
-    public void setTotalPrice(double totalPrice) {
-        TotalPrice = totalPrice;
-    }
-
-    public Long getServiceId() {
-        return ServiceId;
-    }
-
-    public void setServiceId(Long serviceId) {
-        ServiceId = serviceId;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 }
