@@ -25,12 +25,12 @@ public class Product {
     private String Name;
     private String Gender;
     private Integer Rank;
-    private Long CreatedBy;
-    private Long UpdatedBy;
-    private Boolean IsDeleted;
-    private Boolean IsActive;
-    private Date CreatedOn;
-    private Date UpdatedOn;
+//    private Long CreatedBy;
+//    private Long UpdatedBy;
+//    private Boolean IsDeleted;
+//    private Boolean IsActive;
+//    private Date CreatedOn;
+//    private Date UpdatedOn;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "service_id", referencedColumnName = "id")

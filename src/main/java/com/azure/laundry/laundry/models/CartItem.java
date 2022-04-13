@@ -1,5 +1,6 @@
 package com.azure.laundry.laundry.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,10 +20,17 @@ public class CartItem {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    private Long CartId;
+    //private Long CartId;
     private Long ProductId;
+    private Long ServiceId;
     private int Quantity;
     private double Price;
     private double TotalPrice;
-    private Long ServiceId;
+
+
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name="cart_id", nullable=true,insertable = true,updatable = true)
+    private Cart cart;
+
 }

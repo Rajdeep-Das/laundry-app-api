@@ -9,6 +9,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -22,7 +23,9 @@ public class Cart {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    //@Column(unique=true)
     private Long userId;
+
     private String status;
     private Double tax;
     private Double subTotal;
@@ -35,8 +38,8 @@ public class Cart {
     private String pickupSlot;
     private String laundryInstructions;
 
-//    @OneToMany(fetch = FetchType.EAGER, mappedBy = "cart", cascade = CascadeType.ALL)
-//    private List<CartItem> cartItems = new ArrayList<>();
+    @OneToMany(mappedBy="cart",orphanRemoval = true)
+    private Set<CartItem> cartItems;
 
 
 }
