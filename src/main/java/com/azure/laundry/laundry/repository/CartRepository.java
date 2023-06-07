@@ -11,6 +11,6 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
     @Override
     Optional<Cart> findById(Long cartId);
 
-    @Query(value = "SELECT * FROM cart  WHERE user_id = ?1",nativeQuery = true)
-    public Cart findCartByUserId(Long userId);
+    @Query(value = "SELECT * FROM cart  WHERE user_id = ?1 AND is_active = ?2",nativeQuery = true)
+    public Cart findCartByUserId(Long userId,boolean isActive);
 }

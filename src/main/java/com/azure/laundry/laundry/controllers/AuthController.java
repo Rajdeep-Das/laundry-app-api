@@ -1,5 +1,6 @@
 package com.azure.laundry.laundry.controllers;
 
+import com.azure.laundry.laundry.CommonResponse;
 import com.azure.laundry.laundry.exception.TokenRefreshException;
 import com.azure.laundry.laundry.models.ERole;
 import com.azure.laundry.laundry.models.RefreshToken;
@@ -22,6 +23,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -105,7 +107,13 @@ public class AuthController {
     responseData.put("lastName", user.getLastName());
     responseData.put("nickName", user.getNickName());
     responseData.put("dob", user.getDob());
-    return ResponseEntity.ok(responseData);
+
+    CommonResponse commonResponse = new CommonResponse();
+    commonResponse.setMessage("success");
+    commonResponse.setStatus(HttpStatus.OK.value());
+    commonResponse.setData(responseData);
+
+    return ResponseEntity.ok(commonResponse);
   }
 
   @PostMapping("/signup")

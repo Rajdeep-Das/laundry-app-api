@@ -49,7 +49,7 @@ public class UserController {
             
             CommonResponse commonResponse = new CommonResponse();
             commonResponse.setData(userQueryData.get().getAddress());
-            commonResponse.setStatusCode(200);
+            commonResponse.setStatus(200);
             commonResponse.setMessage("success");
             commonResponse.setDescription("");
             log.info("Address Found");
@@ -58,7 +58,7 @@ public class UserController {
             log.info("No Address Found");
             CommonResponse commonResponse = new CommonResponse();
             commonResponse.setData(null);
-            commonResponse.setStatusCode(404);
+            commonResponse.setStatus(404);
             commonResponse.setMessage("failed");
             commonResponse.setDescription("No Address Set");
             return new ResponseEntity<>(commonResponse,HttpStatus.NOT_FOUND);
@@ -96,7 +96,7 @@ public class UserController {
 
             CommonResponse commonResponse = new CommonResponse();
             commonResponse.setData(address);
-            commonResponse.setStatusCode(HttpStatus.CREATED.value());
+            commonResponse.setStatus(HttpStatus.CREATED.value());
             commonResponse.setMessage("success");
             commonResponse.setDescription("");
 
@@ -105,7 +105,7 @@ public class UserController {
 
         CommonResponse commonResponse = new CommonResponse();
         commonResponse.setData(null);
-        commonResponse.setStatusCode(400);
+        commonResponse.setStatus(400);
         commonResponse.setMessage("failed");
         commonResponse.setDescription("Invalid Request");
         return new ResponseEntity<>(commonResponse,HttpStatus.BAD_REQUEST);
@@ -131,7 +131,7 @@ public class UserController {
 
             CommonResponse commonResponse = new CommonResponse();
             commonResponse.setData(address);
-            commonResponse.setStatusCode(200);
+            commonResponse.setStatus(200);
             commonResponse.setMessage("success");
             commonResponse.setDescription("Address Updated");
             log.info("Address Updated");
@@ -140,7 +140,7 @@ public class UserController {
             log.info("No Address Found");
             CommonResponse commonResponse = new CommonResponse();
             commonResponse.setData(null);
-            commonResponse.setStatusCode(404);
+            commonResponse.setStatus(404);
             commonResponse.setMessage("failed");
             commonResponse.setDescription("No Address Set");
             return new ResponseEntity<>(commonResponse,HttpStatus.NOT_FOUND);

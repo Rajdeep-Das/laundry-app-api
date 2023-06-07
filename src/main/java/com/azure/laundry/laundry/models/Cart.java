@@ -38,6 +38,8 @@ public class Cart {
     private String pickupSlot;
     private String laundryInstructions;
 
+    private boolean isActive;
+
     @OneToMany(mappedBy="cart",orphanRemoval = true)
     private Set<CartItem> cartItems;
 

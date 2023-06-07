@@ -1,7 +1,6 @@
 package com.azure.laundry.laundry.controllers;
 
 import com.azure.laundry.laundry.CommonResponse;
-import com.azure.laundry.laundry.models.Service;
 import com.azure.laundry.laundry.repository.ServiceRepository;
 import com.azure.laundry.laundry.service.LaundryService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -30,7 +29,7 @@ public class ServiceController {
     public ResponseEntity<?> getServiceList(){
 
         CommonResponse commonResponse = new CommonResponse();
-        commonResponse.setStatusCode(HttpStatus.OK.value());
+        commonResponse.setStatus(HttpStatus.OK.value());
         commonResponse.setData(serviceRepository.findAll());
         commonResponse.setMessage("success");
         return  new ResponseEntity<>(commonResponse, HttpStatus.OK);
@@ -39,7 +38,7 @@ public class ServiceController {
     @GetMapping("/{serviceId}")
     public ResponseEntity<?> getServiceDetailById(@PathVariable Long serviceId){
         CommonResponse commonResponse = new CommonResponse();
-        commonResponse.setStatusCode(HttpStatus.OK.value());
+        commonResponse.setStatus(HttpStatus.OK.value());
         commonResponse.setData(laundryService.findServiceById(serviceId));
         return  new ResponseEntity<>(commonResponse,HttpStatus.OK);
     }

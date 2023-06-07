@@ -21,6 +21,7 @@ public class CartService {
 
     public Cart createCart(UserDetailsImpl userDetails){
         Cart cart = new Cart();
+        cart.setActive(true);
         cart.setUserId(userDetails.getId());
         cart.setDeliveryType(DeliveryType.STANDARD);
         cart.setTax(0.0);

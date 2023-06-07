@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class CommonResponse {
     private boolean error = false; // default
-    private int statusCode;
+    private int status;
     private Date timestamp = new Date();
     private String message;
     private String description;
@@ -17,7 +17,7 @@ public class CommonResponse {
 
     public CommonResponse(boolean error,int statusCode, Date timestamp, String message, String description, Object data) {
         this.error = error;
-        this.statusCode = statusCode;
+        this.status = statusCode;
         this.timestamp = timestamp;
         this.message = message;
         this.description = description;
@@ -34,12 +34,12 @@ public class CommonResponse {
         this.error = error;
     }
 
-    public int getStatusCode() {
-        return statusCode;
+    public int getStatus() {
+        return status;
     }
 
-    public void setStatusCode(int statusCode) {
-        this.statusCode = statusCode;
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public Date getTimestamp() {
