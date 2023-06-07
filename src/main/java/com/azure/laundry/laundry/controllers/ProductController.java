@@ -1,11 +1,10 @@
 package com.azure.laundry.laundry.controllers;
 
-
 import com.azure.laundry.laundry.CommonResponse;
 import com.azure.laundry.laundry.payload.response.ProductResponse;
 import com.azure.laundry.laundry.service.ProductService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Slf4j
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("api/product")
@@ -26,13 +24,12 @@ public class ProductController {
     ProductService productService;
 
     @GetMapping("/{serviceId}")
-    public ResponseEntity<?> getProductById(@PathVariable Long serviceId){
+    public ResponseEntity<?> getProductById(@PathVariable Long serviceId) {
         CommonResponse commonResponse = new CommonResponse();
         commonResponse.setStatus(HttpStatus.OK.value());
         commonResponse.setMessage("success");
 
-        List<ProductResponse>  productResponses
-                = productService.getAllProductAndPriceByProductAndServiceId(serviceId);
+        List<ProductResponse> productResponses = productService.getAllProductAndPriceByProductAndServiceId(serviceId);
         commonResponse.setData(productResponses);
 
         return new ResponseEntity<>(commonResponse, HttpStatus.OK);

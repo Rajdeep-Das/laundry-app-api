@@ -1,15 +1,20 @@
 package com.azure.laundry.laundry.models;
 
+import java.util.Date;
+import java.util.Set;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -23,7 +28,7 @@ public class Cart {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    //@Column(unique=true)
+    // @Column(unique=true)
     private Long userId;
 
     private String status;
@@ -40,8 +45,7 @@ public class Cart {
 
     private boolean isActive;
 
-    @OneToMany(mappedBy="cart",orphanRemoval = true)
+    @OneToMany(mappedBy = "cart", orphanRemoval = true)
     private Set<CartItem> cartItems;
-
 
 }
