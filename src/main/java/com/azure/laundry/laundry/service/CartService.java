@@ -2,7 +2,7 @@ package com.azure.laundry.laundry.service;
 
 import com.azure.laundry.laundry.constant.DeliveryType;
 import com.azure.laundry.laundry.models.Cart;
-import com.azure.laundry.laundry.models.CartItem;
+
 import com.azure.laundry.laundry.repository.CartItemRepository;
 import com.azure.laundry.laundry.repository.CartRepository;
 import com.azure.laundry.laundry.repository.ProductRepository;
@@ -19,7 +19,7 @@ public class CartService {
     @Autowired
     CartItemRepository cartItemRepository;
 
-    public Cart createCart(UserDetailsImpl userDetails){
+    public Cart createCart(UserDetailsImpl userDetails) {
         Cart cart = new Cart();
         cart.setActive(true);
         cart.setUserId(userDetails.getId());
@@ -32,11 +32,5 @@ public class CartService {
 
         return cart;
     }
-
-
-
-
-
-
 
 }
